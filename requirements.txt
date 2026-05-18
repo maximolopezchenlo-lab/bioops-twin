@@ -1,5 +1,5 @@
 google-genai
-gradio==5.50.0
+gradio
 chromadb
 rank_bm25
 pandas
