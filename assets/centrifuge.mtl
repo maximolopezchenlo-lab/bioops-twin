@@ -1,0 +1,19 @@
+newmtl RotorBody
+Kd 0.75 0.75 0.78
+Ks 0.3 0.3 0.3
+Ns 30
+
+newmtl RotorHub
+Kd 0.25 0.25 0.25
+Ks 0.8 0.8 0.8
+Ns 100
+
+newmtl Tube
+Kd 0.15 0.45 0.85
+Ks 0.9 0.9 0.9
+Ns 80
+
+newmtl TubeCap
+Kd 0.9 0.1 0.1
+Ks 0.5 0.5 0.5
+Ns 50
