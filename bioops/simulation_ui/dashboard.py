@@ -11,6 +11,7 @@ Architecture reference:
 from __future__ import annotations
 
 import logging
+import os
 
 import gradio as gr
 
@@ -319,11 +320,18 @@ def build_dashboard() -> gr.Blocks:
                 # -- Tabs: 3D Model + Audit Logs ----------------------------
                 with gr.Tabs():
                     with gr.TabItem("🔩 3D Model"):
+                        model_path = os.path.abspath(
+                            os.path.join(
+                                os.path.dirname(__file__),
+                                "../../assets/centrifuge_v3.glb"
+                            )
+                        )
                         model_viewer = gr.Model3D(
-                            value="https://raw.githubusercontent.com/maximolopezchenlo-lab/bioops-twin/main/assets/centrifuge_rotor_new.obj",
+                            value=model_path,
                             label="CENT-01 Digital Twin (Simulated)",
                             clear_color=[0, 0, 0, 0],
                             height=260,
+                            interactive=True,
                         )
 
                     with gr.TabItem("📋 Audit Trail"):
