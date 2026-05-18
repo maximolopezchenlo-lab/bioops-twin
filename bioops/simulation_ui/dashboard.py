@@ -320,16 +320,24 @@ def build_dashboard() -> gr.Blocks:
                 # -- Tabs: 3D Model + Audit Logs ----------------------------
                 with gr.Tabs():
                     with gr.TabItem("🔩 3D Model"):
-                        model_path = os.path.abspath(
+                        _local_model = os.path.abspath(
                             os.path.join(
                                 os.path.dirname(__file__),
-                                "../../assets/centrifuge_v3.glb"
+                                "../../assets/centrifuge_v3.glb",
                             )
                         )
+                        _model_value = (
+                            _local_model
+                            if os.path.isfile(_local_model)
+                            and os.path.getsize(_local_model) > 100
+                            else "https://raw.githubusercontent.com/"
+                            "KhronosGroup/glTF-Sample-Models/master/"
+                            "2.0/Duck/glTF-Binary/Duck.glb"
+                        )
                         model_viewer = gr.Model3D(
-                            value=model_path,
+                            value=_model_value,
                             label="CENT-01 Digital Twin (Simulated)",
-                            clear_color=[0, 0, 0, 0],
+                            clear_color=[0.1, 0.1, 0.15, 1.0],
                             height=260,
                             interactive=True,
                         )

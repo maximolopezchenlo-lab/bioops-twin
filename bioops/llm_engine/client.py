@@ -19,6 +19,7 @@ from typing import Any
 
 from bioops.llm_engine.prompts import SYSTEM_PROMPT, build_context_prompt
 from bioops.llm_engine.tools import ALL_TOOLS, bind_simulator
+from bioops.rag_memory.retriever import retrieve_context
 from bioops.simulation_core.simulator import CentrifugeSimulator
 from bioops.security.sanitizer import get_lobster_trap_http_options
 from bioops.security.audit_logger import log_event
@@ -222,16 +223,63 @@ class BioOpsAgent:
         if rpm is not None:
             return _execute_or_shadow({"action": "set_rpm", "value": rpm})
 
-        # Default help response
+        # RAG-powered response for general questions
+        return self._answer_with_rag(user_message)
+
+    def _answer_with_rag(self, user_message: str) -> str:
+        """Answer operator questions using the RAG knowledge base.
+
+        Retrieves relevant calibration protocol chunks from ChromaDB
+        and formats a structured response.  Falls back to a concise
+        help message when no relevant context is found.
+
+        Args:
+            user_message: Operator question.
+
+        Returns:
+            A formatted response with retrieved knowledge.
+        """
+        try:
+            chunks = retrieve_context(
+                query=user_message, equipment_id="CENT-01", top_k=3,
+            )
+        except Exception as exc:
+            logger.warning("RAG retrieval failed: %s", exc)
+            chunks = []
+
         mode = "🟢 LIVE" if self.is_live else "🟡 MOCK"
+
+        if chunks:
+            context_block = "\n\n---\n\n".join(
+                f"📄 **Source {i+1}:** {chunk[:500]}" for i, chunk in enumerate(chunks)
+            )
+            return (
+                f"🤖 **[BioOps Agent — {mode}]**\n\n"
+                f"Based on calibration protocols for CENT-01:\n\n"
+                f"{context_block}\n\n"
+                f"---\n"
+                f"💡 *You can also control the centrifuge with commands like "
+                f"\"Set RPM to 3000\" or \"Stop\".*"
+            )
+
+        # Fallback: built-in knowledge for common questions
+        snap = (
+            f"RPM={self.simulator.current_rpm}, "
+            f"Vibration={self.simulator.vibration_rms_g:.4f}g, "
+            f"State={self.simulator.state.value}"
+        )
         return (
             f"🤖 **[BioOps Agent — {mode}]**\n\n"
-            f"I received: *\"{user_message}\"*\n\n"
-            f"💡 **Available commands:**\n"
-            f"- *\"Set RPM to 3000\"* or *\"Pon la centrífuga a 5000\"*\n"
-            f"- *\"Stop\"* / *\"Detener\"*\n"
-            f"- *\"Reset\"* / *\"Reiniciar\"*\n"
-            f"- JSON: `{{\"action\": \"set_rpm\", \"value\": 3000}}`"
+            f"**Current Telemetry:** {snap}\n\n"
+            f"I can help you with centrifuge calibration. "
+            f"Here are some things you can ask me:\n\n"
+            f"- *\"What is the maximum RPM for a 50g load?\"*\n"
+            f"- *\"Set RPM to 3000\"*\n"
+            f"- *\"What are the vibration thresholds?\"*\n"
+            f"- *\"Stop\"* / *\"Reset\"*\n\n"
+            f"📋 **Safety Limits:** Max RPM = 15,000 · "
+            f"Critical vibration = 0.5g RMS · "
+            f"Resonance zone = 7,000–8,000 RPM"
         )
 
     @staticmethod
