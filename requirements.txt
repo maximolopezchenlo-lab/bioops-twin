@@ -1,0 +1,7 @@
+google-genai
+gradio
+chromadb
+rank_bm25
+pandas
+numpy
+paho-mqtt
