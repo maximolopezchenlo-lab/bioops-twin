@@ -181,8 +181,9 @@ def _resolve_model_path() -> str | None:
     from pathlib import Path
 
     candidates = [
-        Path("assets/centrifuge_v3.glb").resolve(),
-        (Path(__file__).resolve().parents[2] / "assets" / "centrifuge_v3.glb").resolve(),
+        Path("assets/centrifuge_rotor.glb"),
+        Path("assets/centrifuge_v3.glb"),
+        Path("assets/centrifuge.obj"),
     ]
     for p in candidates:
         if p.exists():
