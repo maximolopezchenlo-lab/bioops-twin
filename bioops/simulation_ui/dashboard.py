@@ -178,14 +178,7 @@ def _resolve_model_path() -> str | None:
     project root.  Returns ``None`` if not found so the UI
     gracefully shows an empty viewer.
     """
-    import os
     from pathlib import Path
-
-    space_id = os.environ.get("SPACE_ID")
-    if space_id:
-        url = f"https://huggingface.co/spaces/{space_id}/resolve/main/assets/centrifuge_rotor.glb"
-        logger.info("3D model served from HF Space URL: %s", url)
-        return url
 
     candidates = [
         Path("assets/centrifuge_rotor.glb"),
