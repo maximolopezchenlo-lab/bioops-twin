@@ -178,7 +178,14 @@ def _resolve_model_path() -> str | None:
     project root.  Returns ``None`` if not found so the UI
     gracefully shows an empty viewer.
     """
+    import os
     from pathlib import Path
+
+    space_id = os.environ.get("SPACE_ID")
+    if space_id:
+        url = f"https://huggingface.co/spaces/{space_id}/resolve/main/assets/centrifuge_rotor.glb"
+        logger.info("3D model served from HF Space URL: %s", url)
+        return url
 
     candidates = [
         Path("assets/centrifuge_rotor.glb"),
@@ -314,12 +321,11 @@ def build_dashboard() -> gr.Blocks:
                     value=callbacks.get_telemetry_dataframe,
                     every=telemetry_timer,
                     x="time_s",
-                    y="Vibration (g)",
+                    y="Vibration",
                     title="Vibration Intensity (Real-Time)",
                     y_title="Vibration (g)",
                     x_title="Elapsed Time (s)",
                     height=180,
-                    y_lim=[0, None],
                 )
 
                 with gr.Row():
@@ -332,7 +338,6 @@ def build_dashboard() -> gr.Blocks:
                         y_title="RPM",
                         x_title="Elapsed Time (s)",
                         height=150,
-                        y_lim=[0, None],
                     )
                     zscore_plot = gr.LinePlot(
                         value=callbacks.get_telemetry_dataframe,
