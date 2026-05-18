@@ -7,4 +7,4 @@ to keep the dashboard and callback modules clean.
 from __future__ import annotations
 
 # -- Timer -------------------------------------------------------------------
-TIMER_INTERVAL_SEC: float = 1.0
+TIMER_INTERVAL_SEC: float = 2.5
