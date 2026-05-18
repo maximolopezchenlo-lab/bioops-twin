@@ -5,3 +5,7 @@ rank_bm25
 pandas
 numpy
 paho-mqtt
+fastapi
+uvicorn
+httpx
+supervisor

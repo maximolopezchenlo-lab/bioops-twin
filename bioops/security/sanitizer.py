@@ -24,6 +24,11 @@ def get_lobster_trap_http_options() -> dict[str, Any]:
         Dictionary of HTTP options for ``google.genai.Client``.
     """
     proxy_url = os.environ.get("VEEA_PROXY_URL", "http://localhost:8080")
+    
+    if proxy_url.lower() == "direct":
+        logger.warning("Bypassing Lobster Trap proxy (Direct to Google). Not recommended for production.")
+        return {}
+        
     logger.info("Configuring Lobster Trap proxy at: %s", proxy_url)
     
     return {

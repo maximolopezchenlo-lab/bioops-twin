@@ -249,9 +249,11 @@ def build_dashboard() -> gr.Blocks:
                     elem_id="operator-chatbot",
                     height=340,
                     placeholder=(
-                        "Talk to BioOps — try:\n"
-                        '"Set the centrifuge to 5000 RPM"\n'
-                        '"Stop" · "Reset"'
+                        "🧬 BioOps AI Calibration Agent — try:\n\n"
+                        '"Set the centrifuge to 5000 RPM for bacterial harvest"\n'
+                        '"What is the max safe RPM for a 100g payload?"\n'
+                        '"Run a blood serum separation protocol"\n'
+                        '"Check calibration status and vibration levels"'
                     ),
                 )
                 with gr.Row():
@@ -382,3 +384,28 @@ def build_dashboard() -> gr.Blocks:
         )
 
     return demo
+
+
+def launch_dashboard() -> gr.Blocks:
+    """Build the dashboard and display a startup toast notification.
+
+    Returns:
+        A fully wired :class:`gr.Blocks` application with startup info.
+    """
+    demo = build_dashboard()
+
+    agent = _get_agent_mode_label()
+    @demo.load
+    def _on_load() -> None:
+        gr.Info(f"BioOps Twin initialised · Agent: {agent} · MQTT Edge active")
+
+    return demo
+
+
+def _get_agent_mode_label() -> str:
+    """Determine agent mode label for startup toast."""
+    try:
+        agent = BioOpsAgent(simulator=CentrifugeSimulator())
+        return "🟢 LIVE (Gemini)" if agent.is_live else "🟡 MOCK (Local)"
+    except Exception:  # noqa: BLE001
+        return "🟡 MOCK (Local)"

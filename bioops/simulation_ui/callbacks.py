@@ -234,11 +234,21 @@ def get_state_display() -> str:
     z_score = sim.telemetry_log[-1].z_score if sim.telemetry_log else 0.0
     anomaly_flag = " ⚠️ **ANOMALY DETECTED**" if (sim.telemetry_log and sim.telemetry_log[-1].anomaly) else ""
 
+    # RCF (Relative Centrifugal Force)
+    rcf_val = sim.rcf
+    rcf_display = f"{rcf_val:,.0f} ×g" if rcf_val >= 1 else "— ×g"
+
+    # Session uptime
+    uptime = sim.uptime_seconds
+    mins, secs = divmod(int(uptime), 60)
+    hrs, mins = divmod(mins, 60)
+    uptime_str = f"{hrs:02d}:{mins:02d}:{secs:02d}"
+
     return (
         f"{icon} **{sim.state.value}** — Agent: {mode_tag} · {shadow_tag}\n\n"
-        f"**RPM:** {sim.current_rpm} / {sim.target_rpm}  \n"
+        f"**RPM:** {sim.current_rpm} / {sim.target_rpm} · **RCF:** {rcf_display}  \n"
         f"**Vibration:** {sim.vibration_rms_g:.4f} g · Z-Score: {z_score:.1f}{anomaly_flag}  \n"
-        f"**Device:** {sim.device_id}  \n"
+        f"**Device:** {sim.device_id} · ⏱️ Uptime: {uptime_str}  \n"
         f"{health_icon} **Health Score:** {health:.0f}%  \n"
         f"📡 **MQTT Edge:** {mqtt_status}"
     )

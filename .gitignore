@@ -39,3 +39,7 @@ Thumbs.db
 
 # Hugging Face
 .huggingface/
+
+# Test utilities (dev-only)
+test_gemini.py
+sig.txt

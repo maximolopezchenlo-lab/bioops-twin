@@ -45,6 +45,8 @@ MAX_SAFE_RPM: int = 15_000
 NATURAL_FREQ_RPM: int = 7_500
 RESONANCE_BANDWIDTH_RPM: int = 500
 RPM_RAMP_STEP: int = 200
+ROTOR_RADIUS_CM: float = 15.0  # CENT-01 rotor arm = 150 mm
+RCF_COEFFICIENT: float = 1.118e-5  # RCF = coeff × r_cm × RPM²
 
 
 # ---------------------------------------------------------------------------
@@ -77,6 +79,23 @@ class CentrifugeSimulator:
     invoker: CommandInvoker = field(default_factory=CommandInvoker)
     last_alert: dict[str, Any] | None = field(default=None, repr=False)
     vibration_history: list[float] = field(default_factory=list, repr=False)
+    _start_time: float = field(default_factory=time.time, repr=False)
+
+    # -- Derived physics properties ----------------------------------------
+
+    @property
+    def rcf(self) -> float:
+        """Relative Centrifugal Force in multiples of *g*.
+
+        Uses the standard formula: ``RCF = 1.118e-5 × r_cm × RPM²``.
+        The rotor radius is fixed at 15 cm for the CENT-01 model.
+        """
+        return RCF_COEFFICIENT * ROTOR_RADIUS_CM * (self.current_rpm ** 2)
+
+    @property
+    def uptime_seconds(self) -> float:
+        """Elapsed seconds since the simulator was initialised."""
+        return time.time() - self._start_time
 
     # -- FSM helpers --------------------------------------------------------
 
