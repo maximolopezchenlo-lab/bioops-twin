@@ -32,12 +32,16 @@ def main() -> None:
     """Build and launch the BioOps Twin dashboard."""
     from bioops.simulation_ui.dashboard import build_dashboard
 
+    import os
+    assets_dir = os.path.join(os.path.dirname(__file__), "assets")
+
     logger.info("Launching BioOps Twin dashboard...")
     app = build_dashboard()
     app.queue().launch(
         server_name="0.0.0.0",
         server_port=7860,
         show_error=True,
+        allowed_paths=[assets_dir],
     )
 
 
