@@ -38,6 +38,8 @@ def main() -> None:
         server_name="0.0.0.0",
         server_port=7860,
         show_error=True,
+        theme=getattr(app, "_bioops_theme", None),
+        css=getattr(app, "_bioops_css", None),
     )
 
 

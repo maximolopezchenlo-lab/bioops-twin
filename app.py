@@ -42,6 +42,8 @@ def main() -> None:
         server_port=7860,
         show_error=True,
         allowed_paths=[assets_dir],
+        theme=getattr(app, "_bioops_theme", None),
+        css=getattr(app, "_bioops_css", None),
     )
 
 
