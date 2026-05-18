@@ -305,14 +305,11 @@ def build_dashboard() -> gr.Blocks:
                 # -- Machine State Card ------------------------------------
                 state_display = gr.Markdown(
                     value=callbacks.get_state_display,
-                    every=telemetry_timer,
                     elem_id="state-display",
                 )
 
-                # -- Plots in a compact vertical stack ----------------------
                 vibration_plot = gr.LinePlot(
                     value=callbacks.get_telemetry_dataframe,
-                    every=telemetry_timer,
                     x="time_s",
                     y="Vibration",
                     title="Vibration Intensity (Real-Time)",
@@ -324,7 +321,6 @@ def build_dashboard() -> gr.Blocks:
                 with gr.Row():
                     rpm_plot = gr.LinePlot(
                         value=callbacks.get_telemetry_dataframe,
-                        every=telemetry_timer,
                         x="time_s",
                         y="RPM",
                         title="Rotor Speed (RPM)",
@@ -334,7 +330,6 @@ def build_dashboard() -> gr.Blocks:
                     )
                     zscore_plot = gr.LinePlot(
                         value=callbacks.get_telemetry_dataframe,
-                        every=telemetry_timer,
                         x="time_s",
                         y="Z-Score",
                         title="Anomaly Detection (Z-Score)",
@@ -349,7 +344,6 @@ def build_dashboard() -> gr.Blocks:
                         model_3d = gr.Model3D(
                             value=_resolve_model_path(),
                             label="Centrifuge Rotor Assembly",
-                            clear_color=(0.05, 0.07, 0.1, 1.0),
                             height=260,
                         )
 
@@ -360,13 +354,17 @@ def build_dashboard() -> gr.Blocks:
                         )
                         audit_table = gr.Dataframe(
                             value=callbacks.get_audit_log_dataframe,
-                            every=telemetry_timer,
                             label="Audit Log (Latest 30 Records)",
                             elem_id="audit-table",
                             wrap=True,
                         )
 
         # -- Wire events ----------------------------------------------------
+        telemetry_timer.tick(
+            fn=callbacks.get_dashboard_updates,
+            outputs=[state_display, vibration_plot, rpm_plot, zscore_plot, audit_table],
+        )
+
         send_btn.click(
             fn=callbacks.chat_respond,
             inputs=[user_input, chatbot],

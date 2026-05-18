@@ -146,6 +146,22 @@ def get_telemetry_dataframe() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def get_dashboard_updates() -> tuple[str, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Retrieve all dashboard telemetry values in a single call.
+    
+    This bundles the requests to prevent hitting the Hugging Face Space
+    Rate Limits (429) that occur when individual components poll via `every=`.
+    """
+    df = get_telemetry_dataframe()
+    return (
+        get_state_display(),
+        df,
+        df,
+        df,
+        get_audit_log_dataframe(),
+    )
+
+
 # ---------------------------------------------------------------------------
 # Health Score
 # ---------------------------------------------------------------------------
