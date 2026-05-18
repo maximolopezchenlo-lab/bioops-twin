@@ -247,7 +247,6 @@ def build_dashboard() -> gr.Blocks:
                     value=[],
                     label="BioOps Assistant",
                     elem_id="operator-chatbot",
-                    type="messages",
                     height=340,
                     placeholder=(
                         "Talk to BioOps — try:\n"
