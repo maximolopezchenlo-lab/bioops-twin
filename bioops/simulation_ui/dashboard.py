@@ -216,6 +216,8 @@ def build_dashboard() -> gr.Blocks:
     # -- Build UI ----------------------------------------------------------
     with gr.Blocks(
         title="BioOps Twin — Digital Centrifuge",
+        theme=INDUSTRIAL_THEME,
+        css=INDUSTRIAL_CSS,
     ) as demo:
 
         # -- Header ---------------------------------------------------------
@@ -245,6 +247,7 @@ def build_dashboard() -> gr.Blocks:
                     value=[],
                     label="BioOps Assistant",
                     elem_id="operator-chatbot",
+                    type="messages",
                     height=340,
                     placeholder=(
                         "Talk to BioOps — try:\n"

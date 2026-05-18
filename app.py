@@ -30,11 +30,7 @@ logger = logging.getLogger("bioops_twin")
 
 def main() -> None:
     """Build and launch the BioOps Twin dashboard."""
-    from bioops.simulation_ui.dashboard import (
-        INDUSTRIAL_CSS,
-        INDUSTRIAL_THEME,
-        build_dashboard,
-    )
+    from bioops.simulation_ui.dashboard import build_dashboard
 
     logger.info("Launching BioOps Twin dashboard...")
     app = build_dashboard()
@@ -42,8 +38,6 @@ def main() -> None:
         server_name="0.0.0.0",
         server_port=7860,
         show_error=True,
-        theme=INDUSTRIAL_THEME,
-        css=INDUSTRIAL_CSS,
     )
 
 
