@@ -181,7 +181,7 @@ def _resolve_model_path() -> str | None:
     from pathlib import Path
     
     # Resolving absolute path to the assets directory
-    model_path = (Path(__file__).resolve().parents[2] / "assets" / "centrifuge_rotor.glb").resolve()
+    model_path = (Path(__file__).resolve().parents[2] / "assets" / "centrifuge_rotor_new.obj").resolve()
     
     if model_path.exists():
         logger.info("3D model found: %s", model_path)
