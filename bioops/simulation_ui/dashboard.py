@@ -216,11 +216,9 @@ def build_dashboard() -> gr.Blocks:
     # -- Build UI ----------------------------------------------------------
     with gr.Blocks(
         title="BioOps Twin — Digital Centrifuge",
+        theme=INDUSTRIAL_THEME,
+        css=INDUSTRIAL_CSS,
     ) as demo:
-
-        # Store theme/css for launch() (Gradio 6.14 — moved from Blocks)
-        demo._bioops_theme = INDUSTRIAL_THEME  # type: ignore[attr-defined]
-        demo._bioops_css = INDUSTRIAL_CSS  # type: ignore[attr-defined]
 
         # -- Header ---------------------------------------------------------
         gr.HTML(
@@ -250,6 +248,7 @@ def build_dashboard() -> gr.Blocks:
                     label="BioOps Assistant",
                     elem_id="operator-chatbot",
                     height=340,
+                    type="messages",
                     placeholder=(
                         "🧬 BioOps AI Calibration Agent — try:\n\n"
                         '"Set the centrifuge to 5000 RPM for bacterial harvest"\n'
