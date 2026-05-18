@@ -68,7 +68,7 @@ Biochemical laboratories rely on centrifuges calibrated manually, a process that
 ### Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/bioops-twin.git
+git clone https://github.com/maximolopezchenlo-lab/bioops-twin.git
 cd bioops-twin
 python -m venv .venv
 source .venv/bin/activate
