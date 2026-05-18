@@ -181,7 +181,7 @@ def _resolve_model_path() -> str | None:
     from pathlib import Path
     
     # Resolving absolute path to the assets directory
-    model_path = (Path(__file__).resolve().parents[2] / "assets" / "centrifuge_rotor_new.obj").resolve()
+    model_path = (Path(__file__).resolve().parents[2] / "assets" / "centrifuge_mock.glb").resolve()
     
     if model_path.exists():
         logger.info("3D model found: %s", model_path)
@@ -345,8 +345,8 @@ def build_dashboard() -> gr.Blocks:
                     with gr.TabItem("🔩 3D Model"):
                         model_3d = gr.Model3D(
                             value=_resolve_model_path(),
-                            label="Centrifuge Rotor Assembly",
-                            clear_color=(0.05, 0.07, 0.1, 1.0),
+                            label="CENT-01 Digital Twin",
+                            clear_color=[0, 0, 0, 0],
                             height=260,
                         )
 
