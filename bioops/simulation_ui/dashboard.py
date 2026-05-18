@@ -178,12 +178,17 @@ def _resolve_model_path() -> str | None:
     project root.  Returns ``None`` if not found so the UI
     gracefully shows an empty viewer.
     """
-    # Solución atómica y garantizada para Hugging Face Spaces:
-    # Usar la URL cruda (CDN) del modelo 3D para evitar cualquier conflicto
-    # de rutas locales, permisos de Docker, o allowed_paths.
-    url = "https://huggingface.co/spaces/MaximoLopezChenlo/bioops-twin/resolve/main/assets/centrifuge_rotor.glb"
-    logger.info("3D model resolved via CDN URL: %s", url)
-    return url
+    from pathlib import Path
+    
+    # Resolving absolute path to the assets directory
+    model_path = (Path(__file__).resolve().parents[2] / "assets" / "centrifuge_rotor.glb").resolve()
+    
+    if model_path.exists():
+        logger.info("3D model found: %s", model_path)
+        return str(model_path)
+        
+    logger.warning("3D model not found — viewer will be empty")
+    return None
 
 
 # ---------------------------------------------------------------------------
