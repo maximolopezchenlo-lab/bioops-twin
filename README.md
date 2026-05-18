@@ -112,7 +112,7 @@ When enabled, all AI-generated commands are intercepted and require explicit ope
 Every agent decision, operator command, and state transition is logged to an append-only JSONL file with ISO 8601 timestamps, source attribution, and severity levels.
 
 ### MQTT Edge Connectivity
-Real-time telemetry is published to a configurable MQTT broker (`test.mosquitto.org` for demo), enabling integration with industrial SCADA/HMI systems and external monitoring tools like MQTT Explorer.
+Real-time telemetry is published to a configurable MQTT broker (`broker.hivemq.com` for demo), enabling integration with industrial SCADA/HMI systems and external monitoring tools like MQTT Explorer.
 
 ### Statistical Anomaly Detection
 A rolling Z-Score algorithm (window = 20 ticks) continuously monitors vibration data. When Z > 3σ, the system triggers visual alerts and injects a `SYSTEM_ALERT` into the LLM context to force recalibration.
@@ -127,7 +127,7 @@ bioops-twin/
 ├── app.py                     # Hugging Face Spaces entry point
 ├── requirements.txt
 ├── assets/
-│   └── centrifuge_rotor.glb   # 3D centrifuge model
+│   └── centrifuge_v3.glb      # 3D centrifuge model
 ├── data/
 │   └── manuals/               # Calibration manual sources for RAG
 ├── bioops/
@@ -158,7 +158,7 @@ bioops-twin/
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `GEMINI_API_KEY` | No | Google Gemini API key. Without it, the agent runs in MOCK mode |
-| `MQTT_BROKER` | No | MQTT broker host (default: `test.mosquitto.org`) |
+| `MQTT_BROKER` | No | MQTT broker host (default: `broker.hivemq.com`) |
 | `MQTT_PORT` | No | MQTT broker port (default: `1883`) |
 
 ---

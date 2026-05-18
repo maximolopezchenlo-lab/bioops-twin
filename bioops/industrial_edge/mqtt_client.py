@@ -1,7 +1,7 @@
 """MQTT Edge Adapter for BioOps Twin.
 
 Simulates industrial connectivity by publishing telemetry to a public
-MQTT broker (e.g., test.mosquitto.org). Includes a robust fallback
+MQTT broker (e.g., broker.hivemq.com). Includes a robust fallback
 so the local simulation does not crash if the broker is unavailable.
 """
 
@@ -15,7 +15,7 @@ import paho.mqtt.client as mqtt
 logger = logging.getLogger("bioops_twin.mqtt")
 
 # Public broker for demo purposes
-MQTT_BROKER = "test.mosquitto.org"
+MQTT_BROKER = "broker.hivemq.com"
 MQTT_PORT = 1883
 MQTT_TOPIC_TELEMETRY = "bioops/factory1/centrifuge1/telemetry"
 MQTT_TOPIC_ALERTS = "bioops/factory1/centrifuge1/alerts"
