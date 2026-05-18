@@ -1,3 +1,16 @@
+---
+title: BioOps Twin
+emoji: ⚙️
+colorFrom: blue
+colorTo: green
+sdk: gradio
+sdk_version: "5.33.0"
+app_file: app.py
+pinned: true
+license: mit
+short_description: AI Digital Twin for Lab Centrifuge Calibration
+---
+
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
   <img src="https://img.shields.io/badge/Gemini_3.1_Pro-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Gemini"/>
