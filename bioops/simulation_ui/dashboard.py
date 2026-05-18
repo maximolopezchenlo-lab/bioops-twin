@@ -168,30 +168,6 @@ INDUSTRIAL_THEME = gr.themes.Base(
 
 
 # ---------------------------------------------------------------------------
-# 3D Model helper
-# ---------------------------------------------------------------------------
-
-def _resolve_model_path() -> str | None:
-    """Locate the centrifuge GLB model file.
-
-    Searches for ``assets/centrifuge_rotor.glb`` relative to the
-    project root.  Returns ``None`` if not found so the UI
-    gracefully shows an empty viewer.
-    """
-    from pathlib import Path
-    
-    # Resolving absolute path to the assets directory
-    model_path = (Path(__file__).resolve().parents[2] / "assets" / "placeholder.gltf").resolve()
-    
-    if model_path.exists():
-        logger.info("3D model found: %s", model_path)
-        return str(model_path)
-        
-    logger.warning("3D model not found — viewer will be empty")
-    return None
-
-
-# ---------------------------------------------------------------------------
 # Dashboard Builder
 # ---------------------------------------------------------------------------
 
@@ -344,8 +320,8 @@ def build_dashboard() -> gr.Blocks:
                 with gr.Tabs():
                     with gr.TabItem("🔩 3D Model"):
                         model_viewer = gr.Model3D(
-                            value=_resolve_model_path(),
-                            label="CENT-01 Digital Twin",
+                            value="https://raw.githubusercontent.com/maximolopezchenlo-lab/bioops-twin/main/assets/centrifuge_rotor_new.obj",
+                            label="CENT-01 Digital Twin (Simulated)",
                             clear_color=[0, 0, 0, 0],
                             height=260,
                         )
