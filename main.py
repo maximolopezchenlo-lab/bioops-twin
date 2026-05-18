@@ -33,7 +33,7 @@ def main() -> None:
     from bioops.simulation_ui.dashboard import build_dashboard
 
     import os
-    assets_dir = os.path.join(os.path.dirname(__file__), "assets")
+    assets_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets"))
 
     logger.info("Launching BioOps Twin dashboard...")
     app = build_dashboard()
