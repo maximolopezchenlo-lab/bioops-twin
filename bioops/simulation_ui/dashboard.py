@@ -346,6 +346,7 @@ def build_dashboard() -> gr.Blocks:
                         model_3d = gr.Model3D(
                             value=_resolve_model_path(),
                             label="Centrifuge Rotor Assembly",
+                            clear_color=(0.05, 0.07, 0.1, 1.0),
                             height=260,
                         )
 
