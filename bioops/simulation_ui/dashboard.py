@@ -181,7 +181,7 @@ def _resolve_model_path() -> str | None:
     from pathlib import Path
     
     # Resolving absolute path to the assets directory
-    model_path = (Path(__file__).resolve().parents[2] / "assets" / "centrifuge_mock.glb").resolve()
+    model_path = (Path(__file__).resolve().parents[2] / "assets" / "placeholder.gltf").resolve()
     
     if model_path.exists():
         logger.info("3D model found: %s", model_path)
@@ -343,7 +343,7 @@ def build_dashboard() -> gr.Blocks:
                 # -- Tabs: 3D Model + Audit Logs ----------------------------
                 with gr.Tabs():
                     with gr.TabItem("🔩 3D Model"):
-                        model_3d = gr.Model3D(
+                        model_viewer = gr.Model3D(
                             value=_resolve_model_path(),
                             label="CENT-01 Digital Twin",
                             clear_color=[0, 0, 0, 0],
